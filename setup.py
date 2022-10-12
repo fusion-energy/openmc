@@ -4,7 +4,9 @@ import glob
 import sys
 import numpy as np
 
-from setuptools import setup, find_packages
+from skbuild import setup
+
+from setuptools import find_packages
 from Cython.Build import cythonize
 
 
@@ -16,13 +18,14 @@ else:
 
 # Get version information from __init__.py. This is ugly, but more reliable than
 # using an import.
-with open('openmc/__init__.py', 'r') as f:
+with open('src/openmc/__init__.py', 'r') as f:
     version = f.readlines()[-1].split()[-1].strip("'")
 
 kwargs = {
     'name': 'openmc',
     'version': version,
-    'packages': find_packages(exclude=['tests*']),
+    'packages': find_packages(where='src'),
+    'package_dir': {'':'src'},
     'scripts': glob.glob('scripts/openmc-*'),
 
     # Data files and libraries
@@ -73,7 +76,7 @@ kwargs = {
         'vtk': ['vtk'],
     },
     # Cython is used to add resonance reconstruction and fast float_endf
-    'ext_modules': cythonize('openmc/data/*.pyx'),
+    'ext_modules': cythonize('src/openmc/data/*.pyx'),
     'include_dirs': [np.get_include()]
 }
 
