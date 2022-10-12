@@ -4,7 +4,9 @@ import glob
 import sys
 import numpy as np
 
-from setuptools import setup, find_packages
+from skbuild import setup
+
+from setuptools import find_packages
 from Cython.Build import cythonize
 
 
